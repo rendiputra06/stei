@@ -24,6 +24,10 @@ class DatabaseSeeder extends Seeder
             ProgramStudiSeeder::class,
             GedungSeeder::class,
             RuanganSeeder::class,
+            DosenSeeder::class,
+            MahasiswaSeeder::class,
+            KurikulumSeeder::class,
+            MataKuliahSeeder::class,
         ]);
     }
 }

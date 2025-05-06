@@ -15,32 +15,11 @@ class ProgramStudiSeeder extends Seeder
     {
         $programStudi = [
             [
-                'kode' => 'TI',
-                'nama' => 'Teknik Informatika',
+                'kode' => 'EI',
+                'nama' => 'Ekonomi Islam',
                 'jenjang' => 'S1',
                 'is_active' => true,
-                'deskripsi' => 'Program Studi Teknik Informatika',
-            ],
-            [
-                'kode' => 'SI',
-                'nama' => 'Sistem Informasi',
-                'jenjang' => 'S1',
-                'is_active' => true,
-                'deskripsi' => 'Program Studi Sistem Informasi',
-            ],
-            [
-                'kode' => 'TK',
-                'nama' => 'Teknik Komputer',
-                'jenjang' => 'S1',
-                'is_active' => true,
-                'deskripsi' => 'Program Studi Teknik Komputer',
-            ],
-            [
-                'kode' => 'MTI',
-                'nama' => 'Magister Teknik Informatika',
-                'jenjang' => 'S2',
-                'is_active' => true,
-                'deskripsi' => 'Program Studi Magister Teknik Informatika',
+                'deskripsi' => 'Program Studi Ekonomi Islam',
             ],
         ];
 

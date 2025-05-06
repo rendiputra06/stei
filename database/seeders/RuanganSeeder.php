@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Ruangan;
+use App\Models\ProgramStudi;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,12 +14,14 @@ class RuanganSeeder extends Seeder
      */
     public function run(): void
     {
+        $programStudi = ProgramStudi::where('nama', 'Ekonomi Islam')->first();
+
         $ruangan = [
             [
                 'kode' => 'A101',
                 'nama' => 'Ruang A-101',
                 'gedung_id' => 1, // Gedung A
-                'program_studi_id' => 1, // Teknik Informatika
+                'program_studi_id' => $programStudi->id, // Ekonomi Islam
                 'lantai' => 1,
                 'kapasitas' => 40,
                 'is_active' => true,
@@ -29,7 +32,7 @@ class RuanganSeeder extends Seeder
                 'kode' => 'A201',
                 'nama' => 'Ruang A-201',
                 'gedung_id' => 1, // Gedung A
-                'program_studi_id' => 1, // Teknik Informatika
+                'program_studi_id' => $programStudi->id, // Ekonomi Islam
                 'lantai' => 2,
                 'kapasitas' => 30,
                 'is_active' => true,
@@ -40,7 +43,7 @@ class RuanganSeeder extends Seeder
                 'kode' => 'B101',
                 'nama' => 'Ruang B-101',
                 'gedung_id' => 2, // Gedung B
-                'program_studi_id' => 2, // Sistem Informasi
+                'program_studi_id' => $programStudi->id, // Ekonomi Islam
                 'lantai' => 1,
                 'kapasitas' => 35,
                 'is_active' => true,
@@ -51,7 +54,7 @@ class RuanganSeeder extends Seeder
                 'kode' => 'C101',
                 'nama' => 'Lab C-101',
                 'gedung_id' => 3, // Gedung C
-                'program_studi_id' => 1, // Teknik Informatika
+                'program_studi_id' => $programStudi->id, // Ekonomi Islam
                 'lantai' => 1,
                 'kapasitas' => 25,
                 'is_active' => true,
@@ -62,7 +65,7 @@ class RuanganSeeder extends Seeder
                 'kode' => 'C201',
                 'nama' => 'Lab C-201',
                 'gedung_id' => 3, // Gedung C
-                'program_studi_id' => 3, // Teknik Komputer
+                'program_studi_id' => $programStudi->id, // Ekonomi Islam
                 'lantai' => 2,
                 'kapasitas' => 20,
                 'is_active' => true,

@@ -4,34 +4,33 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class ProgramStudi extends Model
+class Kurikulum extends Model
 {
     use HasFactory;
 
-    protected $table = 'program_studi';
+    protected $table = 'kurikulum';
 
     protected $fillable = [
         'kode',
         'nama',
-        'jenjang',
-        'is_active',
+        'program_studi_id',
+        'tahun_mulai',
+        'status',
         'deskripsi',
+        'is_active',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'tahun_mulai' => 'integer',
     ];
 
-    public function ruangan(): HasMany
+    public function programStudi(): BelongsTo
     {
-        return $this->hasMany(Ruangan::class);
-    }
-
-    public function kurikulum(): HasMany
-    {
-        return $this->hasMany(Kurikulum::class);
+        return $this->belongsTo(ProgramStudi::class);
     }
 
     public function mataKuliah(): HasMany
