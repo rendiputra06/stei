@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             RoleAndPermissionSeeder::class,
+            TahunAkademikSeeder::class,
             ProgramStudiSeeder::class,
             GedungSeeder::class,
             RuanganSeeder::class,
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
             MahasiswaSeeder::class,
             KurikulumSeeder::class,
             MataKuliahSeeder::class,
+            StatusMahasiswaSeeder::class,
         ]);
     }
 }

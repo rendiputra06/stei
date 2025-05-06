@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Dosen;
 use App\Models\User;
+use App\Models\ProgramStudi;
 use Database\Seeders\RoleAndPermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -17,12 +18,23 @@ class DosenTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $programStudi;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         // Jalankan seeder role & permission
         $this->seed(RoleAndPermissionSeeder::class);
+
+        // Buat program studi untuk testing
+        $this->programStudi = ProgramStudi::create([
+            'kode' => 'EI',
+            'nama' => 'Ekonomi Islam',
+            'jenjang' => 'S1',
+            'is_active' => true,
+            'deskripsi' => 'Program Studi Ekonomi Islam',
+        ]);
     }
 
     public function test_can_view_dosen_page()
@@ -47,10 +59,11 @@ class DosenTest extends TestCase
             'nip' => '199001012020121001',
             'nama' => 'Dr. Ahmad Fauzi, M.Kom',
             'email' => 'ahmad.fauzi@example.com',
-            'no_hp' => '081234567890',
+            'no_telepon' => '081234567890',
             'alamat' => 'Jl. Contoh No. 123, Jakarta',
             'tanggal_lahir' => '1990-01-01',
-            'jenis_kelamin' => 'Laki-laki',
+            'jenis_kelamin' => 'L',
+            'program_studi_id' => $this->programStudi->id,
             'is_active' => true,
         ];
 
@@ -58,10 +71,11 @@ class DosenTest extends TestCase
             ->set('data.nip', $dosenData['nip'])
             ->set('data.nama', $dosenData['nama'])
             ->set('data.email', $dosenData['email'])
-            ->set('data.no_hp', $dosenData['no_hp'])
+            ->set('data.no_telepon', $dosenData['no_telepon'])
             ->set('data.alamat', $dosenData['alamat'])
             ->set('data.tanggal_lahir', $dosenData['tanggal_lahir'])
             ->set('data.jenis_kelamin', $dosenData['jenis_kelamin'])
+            ->set('data.program_studi_id', $dosenData['program_studi_id'])
             ->set('data.is_active', $dosenData['is_active'])
             ->call('create')
             ->assertHasNoErrors();
@@ -96,10 +110,11 @@ class DosenTest extends TestCase
             'nip' => '199001012020121002',
             'nama' => 'Dosen Edit',
             'email' => 'dosen.edit@example.com',
-            'no_hp' => '081234567891',
+            'no_telepon' => '081234567891',
             'alamat' => 'Jl. Contoh No. 124, Jakarta',
             'tanggal_lahir' => '1990-01-02',
-            'jenis_kelamin' => 'Laki-laki',
+            'jenis_kelamin' => 'L',
+            'program_studi_id' => $this->programStudi->id,
             'user_id' => $dosenUser->id,
             'is_active' => true,
         ]);
@@ -108,10 +123,11 @@ class DosenTest extends TestCase
             'nip' => '199001012020121002',
             'nama' => 'Dosen Updated',
             'email' => 'dosen.updated@example.com',
-            'no_hp' => '081234567892',
+            'no_telepon' => '081234567892',
             'alamat' => 'Jl. Contoh No. 125, Jakarta',
             'tanggal_lahir' => '1990-01-02',
-            'jenis_kelamin' => 'Laki-laki',
+            'jenis_kelamin' => 'L',
+            'program_studi_id' => $this->programStudi->id,
             'is_active' => true,
         ];
 
@@ -121,10 +137,11 @@ class DosenTest extends TestCase
             ->set('data.nip', $updatedData['nip'])
             ->set('data.nama', $updatedData['nama'])
             ->set('data.email', $updatedData['email'])
-            ->set('data.no_hp', $updatedData['no_hp'])
+            ->set('data.no_telepon', $updatedData['no_telepon'])
             ->set('data.alamat', $updatedData['alamat'])
             ->set('data.tanggal_lahir', $updatedData['tanggal_lahir'])
             ->set('data.jenis_kelamin', $updatedData['jenis_kelamin'])
+            ->set('data.program_studi_id', $updatedData['program_studi_id'])
             ->set('data.is_active', $updatedData['is_active'])
             ->call('save')
             ->assertHasNoErrors();
@@ -161,10 +178,11 @@ class DosenTest extends TestCase
             'nip' => '199001012020121003',
             'nama' => 'Dosen Delete',
             'email' => 'dosen.delete@example.com',
-            'no_hp' => '081234567893',
+            'no_telepon' => '081234567893',
             'alamat' => 'Jl. Contoh No. 126, Jakarta',
             'tanggal_lahir' => '1990-01-03',
-            'jenis_kelamin' => 'Laki-laki',
+            'jenis_kelamin' => 'L',
+            'program_studi_id' => $this->programStudi->id,
             'user_id' => $dosenUser->id,
             'is_active' => true,
         ]);
@@ -194,10 +212,11 @@ class DosenTest extends TestCase
         Livewire::test(CreateDosen::class)
             ->set('data.nama', 'Test Dosen')
             ->set('data.email', 'test.dosen@example.com')
-            ->set('data.no_hp', '081234567890')
+            ->set('data.no_telepon', '081234567890')
             ->set('data.alamat', 'Jl. Contoh No. 123, Jakarta')
             ->set('data.tanggal_lahir', '1990-01-01')
-            ->set('data.jenis_kelamin', 'Laki-laki')
+            ->set('data.jenis_kelamin', 'L')
+            ->set('data.program_studi_id', $this->programStudi->id)
             ->set('data.is_active', true)
             ->call('create')
             ->assertHasErrors(['data.nip' => 'required']);
@@ -207,10 +226,11 @@ class DosenTest extends TestCase
             'nip' => '199001012020121004',
             'nama' => 'Dosen Duplikat',
             'email' => 'dosen.dup@example.com',
-            'no_hp' => '081234567894',
+            'no_telepon' => '081234567894',
             'alamat' => 'Jl. Contoh No. 127, Jakarta',
             'tanggal_lahir' => '1990-01-04',
-            'jenis_kelamin' => 'Laki-laki',
+            'jenis_kelamin' => 'L',
+            'program_studi_id' => $this->programStudi->id,
             'is_active' => true,
         ]);
 
@@ -218,10 +238,11 @@ class DosenTest extends TestCase
             ->set('data.nip', '199001012020121004')
             ->set('data.nama', 'Dosen Duplikat 2')
             ->set('data.email', 'dosen.dup2@example.com')
-            ->set('data.no_hp', '081234567895')
+            ->set('data.no_telepon', '081234567895')
             ->set('data.alamat', 'Jl. Contoh No. 128, Jakarta')
             ->set('data.tanggal_lahir', '1990-01-05')
-            ->set('data.jenis_kelamin', 'Laki-laki')
+            ->set('data.jenis_kelamin', 'L')
+            ->set('data.program_studi_id', $this->programStudi->id)
             ->set('data.is_active', true)
             ->call('create')
             ->assertHasErrors(['data.nip' => 'unique']);
@@ -231,10 +252,11 @@ class DosenTest extends TestCase
             ->set('data.nip', '199001012020121005')
             ->set('data.nama', 'Dosen Duplikat 3')
             ->set('data.email', 'dosen.dup@example.com') // Email yang sudah digunakan
-            ->set('data.no_hp', '081234567896')
+            ->set('data.no_telepon', '081234567896')
             ->set('data.alamat', 'Jl. Contoh No. 129, Jakarta')
             ->set('data.tanggal_lahir', '1990-01-06')
-            ->set('data.jenis_kelamin', 'Laki-laki')
+            ->set('data.jenis_kelamin', 'L')
+            ->set('data.program_studi_id', $this->programStudi->id)
             ->set('data.is_active', true)
             ->call('create')
             ->assertHasErrors(['data.email' => 'unique']);
