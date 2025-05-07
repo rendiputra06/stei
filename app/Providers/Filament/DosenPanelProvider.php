@@ -19,6 +19,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Http\Middleware\EnsureUserHasRole;
 use Filament\Navigation\MenuItem;
+use App\Filament\Dosen\Widgets\PendingKRSWidget;
 
 class DosenPanelProvider extends PanelProvider
 {
@@ -30,7 +31,7 @@ class DosenPanelProvider extends PanelProvider
             ->authGuard('web')
             ->login(false)
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => Color::Amber,
             ])
             ->discoverResources(in: app_path('Filament/Dosen/Resources'), for: 'App\\Filament\\Dosen\\Resources')
             ->discoverPages(in: app_path('Filament/Dosen/Pages'), for: 'App\\Filament\\Dosen\\Pages')
@@ -40,6 +41,7 @@ class DosenPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Dosen/Widgets'), for: 'App\\Filament\\Dosen\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
+                PendingKRSWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

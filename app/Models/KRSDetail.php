@@ -31,7 +31,7 @@ class KRSDetail extends Model
      */
     public function krs(): BelongsTo
     {
-        return $this->belongsTo(KRS::class);
+        return $this->belongsTo(KRS::class, 'krs_id');
     }
 
     /**

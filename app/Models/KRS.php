@@ -21,6 +21,7 @@ class KRS extends Model
         'total_sks',
         'semester',
         'keterangan',
+        'catatan_dosen',
         'tanggal_submit',
         'tanggal_approval',
         'approved_by',
@@ -62,7 +63,7 @@ class KRS extends Model
      */
     public function krsDetail(): HasMany
     {
-        return $this->hasMany(KRSDetail::class);
+        return $this->hasMany(KRSDetail::class, 'krs_id');
     }
 
     /**
@@ -115,7 +116,9 @@ class KRS extends Model
      */
     public function hitungTotalSKS(): int
     {
-        return $this->krsDetail()->where('status', 'aktif')->sum('sks');
+        return $this->krsDetail()
+            ->where('status', '=', 'aktif')
+            ->sum('sks');
     }
 
     /**

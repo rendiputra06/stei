@@ -241,17 +241,25 @@ class PengisianKRS extends Page implements HasTable
                     Select::make('jadwal_id')
                         ->label('Mata Kuliah')
                         ->options(function () {
+                            // Mata kuliah yang sudah dipilih
+                            $mataKuliahDipilih = KRSDetail::where('krs_id', $this->krs->id)
+                                ->pluck('mata_kuliah_id')
+                                ->toArray();
                             // Ambil daftar jadwal yang tersedia
                             return Jadwal::with(['mataKuliah', 'dosen', 'ruangan'])
                                 ->where('tahun_akademik_id', $this->tahunAkademik->id)
                                 ->where('is_active', true)
-                                ->whereHas('mataKuliah', function ($query) {
+                                ->whereHas('mataKuliah', function ($query) use ($mataKuliahDipilih) {
                                     // Filter mata kuliah sesuai kurikulum yang sedang aktif untuk program studi mahasiswa
                                     $query->where('program_studi_id', $this->mahasiswa->program_studi_id)
                                         ->where('is_active', true)
                                         ->whereHas('kurikulum', function ($q) {
                                             $q->where('is_active', true);
                                         });
+                                    // Filter mata kuliah yang belum dipilih
+                                    if (!empty($mataKuliahDipilih)) {
+                                        $query->whereNotIn('id', $mataKuliahDipilih);
+                                    }
                                 })
                                 ->get()
                                 ->mapWithKeys(function ($jadwal) {

@@ -56,3 +56,19 @@ Route::get('/filament-login', function () {
 Route::post('/filament-logout', function () {
     return redirect()->route('logout');
 })->name('filament.custom.logout');
+
+// Route untuk cetak KRS
+Route::get('/krs/{krs}/print', function (App\Models\KRS $krs) {
+    // Cek otorisasi
+    if (auth()->user()->cannot('view', $krs)) {
+        abort(403);
+    }
+
+    // Ambil data untuk cetak KRS
+    $mahasiswa = $krs->mahasiswa;
+    $tahunAkademik = $krs->tahunAkademik;
+    $krsDetails = $krs->krsDetail()->with(['mataKuliah', 'jadwal', 'jadwal.dosen', 'jadwal.ruangan'])->get();
+
+    // Return view cetak KRS
+    return view('mahasiswa.krs.print', compact('krs', 'mahasiswa', 'tahunAkademik', 'krsDetails'));
+})->name('krs.print')->middleware(['auth']);
