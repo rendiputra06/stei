@@ -1,15 +1,26 @@
 <?php
 
 return [
-    'path' => env('FILAMENT_PATH', 'admin'),
-    'domain' => env('FILAMENT_DOMAIN'),
-    'home_url' => '/',
+    /*
+    |--------------------------------------------------------------------------
+    | Default Filament Authentication Route Names
+    |--------------------------------------------------------------------------
+    |
+    | Pengaturan ini digunakan untuk mengkonfigurasi rute login dan logout kustom
+    | yang digunakan oleh Filament.
+    |
+    */
     'auth' => [
         'guard' => env('FILAMENT_AUTH_GUARD', 'web'),
         'pages' => [
-            'login' => \Filament\Pages\Auth\Login::class,
+            'login' => null, // Menonaktifkan halaman login default Filament
         ],
     ],
+
+    'home_url' => '/',
+    'path' => env('FILAMENT_PATH', 'admin'),
+    'domain' => env('FILAMENT_DOMAIN'),
+
     'pages' => [
         'namespace' => 'App\\Filament\\Pages',
         'path' => app_path('Filament/Pages'),
@@ -27,14 +38,14 @@ return [
     ],
     'middleware' => [
         'auth' => [
-            \Filament\Middleware\Authenticate::class,
+            \Filament\Http\Middleware\Authenticate::class,
         ],
         'base' => [
             \Illuminate\Cookie\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\VerifyCsrfToken::class,
+            \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ],
