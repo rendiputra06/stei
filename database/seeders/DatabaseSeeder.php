@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             KurikulumSeeder::class,
             MataKuliahSeeder::class,
             StatusMahasiswaSeeder::class,
+            JadwalSeeder::class, // Menambahkan seeder jadwal
         ]);
     }
 }
