@@ -235,6 +235,7 @@ class StatusMahasiswaResource extends Resource
             'create' => Pages\CreateStatusMahasiswa::route('/create'),
             'view' => Pages\ViewStatusMahasiswa::route('/{record}'),
             'edit' => Pages\EditStatusMahasiswa::route('/{record}/edit'),
+            'generate' => Pages\GenerateStatusMahasiswa::route('/generate'),
         ];
     }
 

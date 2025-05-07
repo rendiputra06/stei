@@ -14,6 +14,11 @@ class ListStatusMahasiswas extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+            Actions\Action::make('generate')
+                ->label('Generate Status')
+                ->icon('heroicon-o-cpu-chip')
+                ->color('success')
+                ->url(static::getResource()::getUrl('generate')),
         ];
     }
 }

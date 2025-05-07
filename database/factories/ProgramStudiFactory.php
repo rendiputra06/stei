@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ProgramStudiFactory extends Factory
 {
+    protected $model = ProgramStudi::class;
+
     /**
      * Define the model's default state.
      *
@@ -17,22 +19,21 @@ class ProgramStudiFactory extends Factory
      */
     public function definition(): array
     {
-        $nama = $this->faker->randomElement([
+        $jenjang = $this->faker->randomElement(['D3', 'S1', 'S2', 'S3']);
+        $namaProdi = $this->faker->randomElement([
             'Teknik Informatika',
+            'Teknik Elektro',
             'Sistem Informasi',
-            'Ilmu Komputer',
             'Manajemen Informatika',
-            'Teknik Komputer',
-            'Desain Komunikasi Visual',
+            'Ilmu Komputer',
         ]);
 
-        $kode = strtoupper(substr(str_replace(' ', '', $nama), 0, 2)) . $this->faker->unique()->numberBetween(10, 99);
+        $kode = strtoupper(substr(str_replace(' ', '', $namaProdi), 0, 3));
 
         return [
+            'nama' => $namaProdi . ' ' . $jenjang,
             'kode' => $kode,
-            'nama' => $nama,
-            'jenjang' => $this->faker->randomElement(['D3', 'D4', 'S1', 'S2']),
-            'is_active' => true,
+            'jenjang' => $jenjang,
         ];
     }
 }

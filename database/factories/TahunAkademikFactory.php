@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class TahunAkademikFactory extends Factory
 {
+    protected $model = TahunAkademik::class;
+
     /**
      * Define the model's default state.
      *
@@ -17,8 +19,8 @@ class TahunAkademikFactory extends Factory
      */
     public function definition(): array
     {
+        $tahun = $this->faker->numberBetween(2018, 2023);
         $semester = $this->faker->randomElement(['Ganjil', 'Genap', 'Pendek']);
-        $tahun = $this->faker->numberBetween(2020, 2030);
         $semesterKode = $semester === 'Ganjil' ? '1' : ($semester === 'Genap' ? '2' : '3');
         $kode = $tahun . $semesterKode;
 
@@ -31,13 +33,11 @@ class TahunAkademikFactory extends Factory
         $nilaiMulai = (clone $tanggalSelesai)->modify('-21 days');
         $nilaiSelesai = (clone $tanggalSelesai)->modify('-7 days');
 
-        $namaLengkap = "Semester $semester " . $tahun . "/" . ($tahun + 1);
-
         return [
             'kode' => $kode,
             'tahun' => $tahun,
             'semester' => $semester,
-            'nama' => $namaLengkap,
+            'nama' => "Semester $semester " . $tahun . "/" . ($tahun + 1),
             'aktif' => false,
             'tanggal_mulai' => $tanggalMulai,
             'tanggal_selesai' => $tanggalSelesai,
@@ -51,10 +51,12 @@ class TahunAkademikFactory extends Factory
     /**
      * Menandai tahun akademik sebagai aktif.
      */
-    public function aktif(): static
+    public function aktif()
     {
-        return $this->state(fn(array $attributes) => [
-            'aktif' => true,
-        ]);
+        return $this->state(function (array $attributes) {
+            return [
+                'aktif' => true,
+            ];
+        });
     }
 }
