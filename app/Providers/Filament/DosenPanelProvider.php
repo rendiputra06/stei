@@ -18,6 +18,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Http\Middleware\EnsureUserHasRole;
+use Filament\Navigation\MenuItem;
 
 class DosenPanelProvider extends PanelProvider
 {
@@ -54,6 +55,14 @@ class DosenPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
                 EnsureUserHasRole::class . ':dosen',
+            ])
+            ->userMenuItems([
+                // Tambahkan tombol "Return to Admin" jika dalam mode Login As
+                MenuItem::make()
+                    ->label('Kembali ke Admin')
+                    ->url(fn() => route('return-to-admin'))
+                    ->icon('heroicon-o-arrow-left-circle')
+                    ->visible(fn() => session()->has('admin_id') && session()->has('login_as')),
             ]);
     }
 }

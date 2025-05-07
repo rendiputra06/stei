@@ -18,6 +18,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Http\Middleware\EnsureUserHasRole;
+use Filament\Navigation\MenuItem;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -56,6 +57,13 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
                 EnsureUserHasRole::class . ':super_admin,admin',
+            ])
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label('Kembali ke Admin')
+                    ->url(fn() => route('return-to-admin'))
+                    ->icon('heroicon-o-arrow-left-circle')
+                    ->visible(fn() => session()->has('admin_id') && session()->has('login_as')),
             ]);
     }
 }

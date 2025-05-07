@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
+use Filament\Notifications\Notification;
 
 class UserResource extends Resource
 {
@@ -77,6 +78,16 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('loginAs')
+                    ->label('Login As')
+                    ->icon('heroicon-o-key')
+                    ->color('success')
+                    ->visible(fn() => auth()->user()->hasRole('super_admin'))
+                    ->requiresConfirmation()
+                    ->modalHeading(fn(User $record): string => "Login sebagai {$record->name}")
+                    ->modalDescription('Anda akan masuk sebagai pengguna ini. Sesi sebagai admin Anda akan disimpan dan dapat dipulihkan.')
+                    ->modalSubmitActionLabel('Ya, Login Sebagai User Ini')
+                    ->url(fn(User $record): string => route('login-as', $record)),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

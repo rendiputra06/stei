@@ -2,6 +2,7 @@
 
 use App\Livewire\StatusMahasiswaPage;
 use App\Http\Controllers\CustomFilamentLoginController;
+use App\Http\Controllers\LoginAsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +38,15 @@ Route::post('/logout', [CustomFilamentLoginController::class, 'logout'])
 Route::get('/quick-login/{userId}', [CustomFilamentLoginController::class, 'quickLogin'])
     ->name('filament.custom.quick-login')
     ->middleware('guest');
+
+// Login As and Return Routes
+Route::get('/login-as/{user}', [LoginAsController::class, 'loginAs'])
+    ->middleware('auth')
+    ->name('login-as');
+
+Route::get('/return-to-admin', [LoginAsController::class, 'returnToAdmin'])
+    ->middleware('auth')
+    ->name('return-to-admin');
 
 // Buat alias rute
 Route::get('/filament-login', function () {
