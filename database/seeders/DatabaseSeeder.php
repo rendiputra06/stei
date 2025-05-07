@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             MataKuliahSeeder::class,
             StatusMahasiswaSeeder::class,
             JadwalSeeder::class, // Menambahkan seeder jadwal
+            PembimbinganSeeder::class,
         ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Mahasiswa extends Model
 {
@@ -25,6 +26,7 @@ class Mahasiswa extends Model
         'status',  // aktif, cuti, lulus, drop out
         'is_active',
         'user_id',
+        'status_mahasiswa_id',
     ];
 
     protected $casts = [
@@ -82,5 +84,21 @@ class Mahasiswa extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function statusMahasiswa(): BelongsTo
+    {
+        return $this->belongsTo(StatusMahasiswa::class);
+    }
+
+    public function pembimbingan(): HasMany
+    {
+        return $this->hasMany(Pembimbingan::class);
+    }
+
+    public function dosenPembimbing()
+    {
+        return $this->belongsToMany(Dosen::class, 'pembimbingan')
+            ->withTimestamps();
     }
 }
