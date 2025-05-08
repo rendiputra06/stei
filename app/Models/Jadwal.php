@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Jadwal extends Model
 {
@@ -110,5 +111,39 @@ class Jadwal extends Model
         }
 
         return $query->exists();
+    }
+
+    /**
+     * Mendapatkan presensi untuk jadwal ini
+     */
+    public function presensi(): HasMany
+    {
+        return $this->hasMany(Presensi::class);
+    }
+
+    /**
+     * Mendapatkan materi perkuliahan untuk jadwal ini
+     */
+    public function materiPerkuliahan(): HasMany
+    {
+        return $this->hasMany(MateriPerkuliahan::class);
+    }
+
+    /**
+     * Mendapatkan jumlah pertemuan presensi
+     */
+    public function jumlahPertemuan(): int
+    {
+        return $this->presensi()->count();
+    }
+
+    /**
+     * Mendapatkan jumlah mahasiswa di kelas ini
+     */
+    public function jumlahMahasiswa(): int
+    {
+        return KRSDetail::where('jadwal_id', $this->id)
+            ->where('status', 'aktif')
+            ->count();
     }
 }

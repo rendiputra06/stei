@@ -34,6 +34,12 @@ class DatabaseSeeder extends Seeder
             PembimbinganSeeder::class,
             KRSSeeder::class, // Menambahkan seeder KRS
             KRSDetailSeeder::class, // Menambahkan seeder KRSDetail
+
+            // Seeder untuk fitur panel dosen
+            PresensiSeeder::class,
+            PresensiDetailSeeder::class,
+            MateriPerkuliahanSeeder::class,
+            NilaiSeeder::class,
         ]);
     }
 }

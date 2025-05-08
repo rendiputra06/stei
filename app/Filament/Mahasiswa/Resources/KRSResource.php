@@ -28,7 +28,7 @@ class KRSResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationLabel = 'Pengisian KRS';
+    protected static ?string $navigationLabel = 'Kartu Rencana Studi';
 
     protected static ?string $navigationGroup = 'Akademik';
 

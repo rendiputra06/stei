@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\JadwalResource\Pages;
 use App\Models\Jadwal;
+use App\Models\TahunAkademik;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
@@ -15,6 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
@@ -48,6 +50,9 @@ class JadwalResource extends Resource
 
     public static function form(Form $form): Form
     {
+        // Dapatkan tahun akademik aktif
+        $tahunAkademikAktif = TahunAkademik::getAktif();
+
         return $form
             ->schema([
                 Forms\Components\Card::make()
@@ -56,7 +61,8 @@ class JadwalResource extends Resource
                             ->relationship('tahunAkademik', 'nama')
                             ->required()
                             ->searchable()
-                            ->preload(),
+                            ->preload()
+                            ->default($tahunAkademikAktif ? $tahunAkademikAktif->id : null),
 
                         Select::make('mata_kuliah_id')
                             ->relationship('mataKuliah', 'nama')
@@ -119,6 +125,9 @@ class JadwalResource extends Resource
 
     public static function table(Table $table): Table
     {
+        // Dapatkan tahun akademik aktif
+        $tahunAkademikAktif = TahunAkademik::getAktif();
+
         return $table
             ->columns([
                 TextColumn::make('tahunAkademik.nama')
@@ -160,7 +169,8 @@ class JadwalResource extends Resource
             ->filters([
                 SelectFilter::make('tahun_akademik_id')
                     ->relationship('tahunAkademik', 'nama')
-                    ->label('Tahun Akademik'),
+                    ->label('Tahun Akademik')
+                    ->default($tahunAkademikAktif ? $tahunAkademikAktif->id : null),
 
                 SelectFilter::make('hari')
                     ->options([
@@ -177,6 +187,7 @@ class JadwalResource extends Resource
                         '1' => 'Aktif',
                         '0' => 'Tidak Aktif',
                     ])
+                    ->default('1')
                     ->label('Status'),
 
                 SelectFilter::make('ruangan_id')
@@ -196,7 +207,8 @@ class JadwalResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('hari');
     }
 
     public static function getPages(): array

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class KRSDetail extends Model
 {
@@ -75,5 +76,37 @@ class KRSDetail extends Model
             'aktif' => 'Aktif',
             'batal' => 'Batal'
         ];
+    }
+
+    /**
+     * Mendapatkan nilai untuk detail KRS ini
+     */
+    public function nilai(): HasOne
+    {
+        return $this->hasOne(Nilai::class, 'krs_detail_id');
+    }
+
+    /**
+     * Cek apakah sudah ada nilai
+     */
+    public function hasNilai(): bool
+    {
+        return $this->nilai()->exists();
+    }
+
+    /**
+     * Mendapatkan nilai akhir
+     */
+    public function getNilaiAkhir()
+    {
+        return $this->hasNilai() ? $this->nilai->nilai_akhir : null;
+    }
+
+    /**
+     * Mendapatkan grade
+     */
+    public function getGrade()
+    {
+        return $this->hasNilai() ? $this->nilai->grade : null;
     }
 }

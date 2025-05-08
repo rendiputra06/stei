@@ -47,16 +47,16 @@
                             <table class="min-w-full divide-y divide-gray-200" width="100%">
                                 <thead>
                                     <tr>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NIM</th>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
+                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mahasiswa</th>
+                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Program Studi</th>
                                         <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
-                                    @foreach($mahasiswaBimbingan as $mahasiswa)
+                                    @foreach($this->mahasiswaBimbingan as $mahasiswa)
                                         <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $mahasiswa->nim }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $mahasiswa->nama }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $mahasiswa->nim }} - {{ $mahasiswa->nama }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $mahasiswa->programStudi->nama ?? 'Tidak ada' }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                 <x-filament::button
                                                     wire:click="hapusBimbingan({{ $mahasiswa->id }})"

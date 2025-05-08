@@ -41,7 +41,9 @@ class DosenPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Dosen/Widgets'), for: 'App\\Filament\\Dosen\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                PendingKRSWidget::class,
+                \App\Filament\Dosen\Widgets\JadwalMengajarWidget::class,
+                \App\Filament\Dosen\Widgets\PendingKrsWidget::class,
+                \App\Filament\Dosen\Widgets\MahasiswaBimbinganWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
