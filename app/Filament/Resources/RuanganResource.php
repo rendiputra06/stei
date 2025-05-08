@@ -20,7 +20,7 @@ class RuanganResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-storefront';
 
-    protected static ?string $navigationGroup = 'Akademik';
+    protected static ?string $navigationGroup = 'Data Master';
 
     protected static ?int $navigationSort = 3;
 

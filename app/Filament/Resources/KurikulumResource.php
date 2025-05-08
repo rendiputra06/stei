@@ -17,7 +17,7 @@ class KurikulumResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
-    protected static ?string $navigationGroup = 'Akademik';
+    protected static ?string $navigationGroup = 'Data Master';
 
     protected static ?int $navigationSort = 20;
 

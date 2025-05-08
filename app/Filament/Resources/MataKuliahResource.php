@@ -17,7 +17,7 @@ class MataKuliahResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationGroup = 'Akademik';
+    protected static ?string $navigationGroup = 'Data Master';
 
     protected static ?int $navigationSort = 21;
 

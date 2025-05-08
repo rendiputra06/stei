@@ -18,7 +18,7 @@ class ProgramStudiResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
-    protected static ?string $navigationGroup = 'Akademik';
+    protected static ?string $navigationGroup = 'Data Master';
 
     protected static ?int $navigationSort = 1;
 
