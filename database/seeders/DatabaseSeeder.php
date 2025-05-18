@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder
             PresensiDetailSeeder::class,
             MateriPerkuliahanSeeder::class,
             NilaiSeeder::class,
+            EdomSeeder::class,
         ]);
     }
 }
