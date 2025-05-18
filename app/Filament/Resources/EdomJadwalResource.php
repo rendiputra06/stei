@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\EdomJadwalResource\Pages;
 use App\Filament\Resources\EdomJadwalResource\RelationManagers;
+use App\Models\Dosen;
 use App\Models\EdomJadwal;
 use App\Models\EdomTemplate;
 use App\Models\TahunAkademik;
@@ -78,6 +79,22 @@ class EdomJadwalResource extends Resource
                             ->maxLength(65535)
                             ->columnSpanFull(),
                     ]),
+                Forms\Components\Section::make('Dosen yang Akan Dievaluasi')
+                    ->schema([
+                        Forms\Components\Select::make('dosen')
+                            ->label('Pilih Dosen')
+                            ->relationship('dosen', 'nama')
+                            ->options(
+                                fn() => Dosen::where('is_active', true)
+                                    ->orderBy('nama')
+                                    ->pluck('nama', 'id')
+                            )
+                            ->searchable()
+                            ->preload()
+                            ->multiple()
+                            ->columnSpanFull()
+                            ->helperText('Pilih dosen yang akan dievaluasi pada periode ini. Jika tidak ada yang dipilih, semua dosen akan tersedia untuk evaluasi.'),
+                    ]),
             ]);
     }
 
@@ -107,6 +124,9 @@ class EdomJadwalResource extends Resource
                 Tables\Columns\IconColumn::make('is_aktif')
                     ->label('Status')
                     ->boolean(),
+                Tables\Columns\TextColumn::make('dosen_count')
+                    ->label('Jumlah Dosen')
+                    ->counts('dosen'),
                 Tables\Columns\TextColumn::make('pengisian_count')
                     ->label('Jumlah Pengisian')
                     ->counts('pengisian'),

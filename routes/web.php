@@ -3,6 +3,7 @@
 use App\Livewire\StatusMahasiswaPage;
 use App\Http\Controllers\CustomFilamentLoginController;
 use App\Http\Controllers\LoginAsController;
+use App\Http\Controllers\KHSCetakController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -72,3 +73,8 @@ Route::get('/krs/{krs}/print', function (App\Models\KRS $krs) {
     // Return view cetak KRS
     return view('mahasiswa.krs.print', compact('krs', 'mahasiswa', 'tahunAkademik', 'krsDetails'));
 })->name('krs.print')->middleware(['auth']);
+
+// Route untuk cetak KHS
+Route::get('/khs/cetak/{semester}/{tahunAkademikId}', [KHSCetakController::class, 'cetakKHS'])
+    ->name('khs.cetak')
+    ->middleware(['auth']);

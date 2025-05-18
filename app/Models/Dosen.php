@@ -92,4 +92,12 @@ class Dosen extends Model
         return $this->belongsToMany(Mahasiswa::class, 'pembimbingan')
             ->withTimestamps();
     }
+
+    /**
+     * Relasi ke jadwal EDOM dimana dosen akan dievaluasi
+     */
+    public function jadwalEdom()
+    {
+        return $this->belongsToMany(EdomJadwal::class, 'edom_jadwal_dosen', 'dosen_id', 'edom_jadwal_id')->withTimestamps();
+    }
 }

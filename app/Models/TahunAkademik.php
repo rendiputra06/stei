@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TahunAkademik extends Model
@@ -42,5 +43,13 @@ class TahunAkademik extends Model
     public static function getAktif()
     {
         return self::where('aktif', true)->first();
+    }
+
+    /**
+     * Relasi dengan KRS
+     */
+    public function krs(): HasMany
+    {
+        return $this->hasMany(KRS::class, 'tahun_akademik_id');
     }
 }

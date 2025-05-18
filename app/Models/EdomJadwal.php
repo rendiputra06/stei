@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class EdomJadwal extends Model
@@ -51,6 +52,14 @@ class EdomJadwal extends Model
     public function pengisian(): HasMany
     {
         return $this->hasMany(EdomPengisian::class, 'jadwal_id');
+    }
+
+    /**
+     * Relasi ke dosen yang akan dievaluasi pada jadwal ini
+     */
+    public function dosen(): BelongsToMany
+    {
+        return $this->belongsToMany(Dosen::class, 'edom_jadwal_dosen', 'edom_jadwal_id', 'dosen_id')->withTimestamps();
     }
 
     /**

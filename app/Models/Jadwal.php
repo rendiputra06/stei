@@ -138,6 +138,14 @@ class Jadwal extends Model
     }
 
     /**
+     * Mendapatkan KRS Detail yang terkait dengan jadwal ini
+     */
+    public function krsDetail(): HasMany
+    {
+        return $this->hasMany(KRSDetail::class, 'jadwal_id');
+    }
+
+    /**
      * Mendapatkan jumlah mahasiswa di kelas ini
      */
     public function jumlahMahasiswa(): int
