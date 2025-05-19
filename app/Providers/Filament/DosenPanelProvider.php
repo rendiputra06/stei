@@ -37,6 +37,7 @@ class DosenPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Dosen/Pages'), for: 'App\\Filament\\Dosen\\Pages')
             ->pages([
                 // Pages\Dashboard::class,
+                \App\Filament\Dosen\Pages\AbsensiQRCode::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Dosen/Widgets'), for: 'App\\Filament\\Dosen\\Widgets')
             ->widgets([
