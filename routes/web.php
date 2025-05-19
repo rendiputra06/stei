@@ -4,6 +4,7 @@ use App\Livewire\StatusMahasiswaPage;
 use App\Http\Controllers\CustomFilamentLoginController;
 use App\Http\Controllers\LoginAsController;
 use App\Http\Controllers\KHSCetakController;
+use App\Http\Controllers\TranskripCetakController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,7 +62,7 @@ Route::post('/filament-logout', function () {
 // Route untuk cetak KRS
 Route::get('/krs/{krs}/print', function (App\Models\KRS $krs) {
     // Cek otorisasi
-    if (auth()->user()->cannot('view', $krs)) {
+    if (auth()->user()->id !== $krs->mahasiswa->user_id) {
         abort(403);
     }
 
@@ -77,4 +78,9 @@ Route::get('/krs/{krs}/print', function (App\Models\KRS $krs) {
 // Route untuk cetak KHS
 Route::get('/khs/cetak/{semester}/{tahunAkademikId}', [KHSCetakController::class, 'cetakKHS'])
     ->name('khs.cetak')
+    ->middleware(['auth']);
+
+// Route untuk cetak Transkrip Nilai
+Route::get('/transkrip/cetak', [TranskripCetakController::class, 'cetakTranskrip'])
+    ->name('transkrip.cetak')
     ->middleware(['auth']);

@@ -6,6 +6,9 @@ use App\Models\KRS;
 use App\Models\KRSDetail;
 use App\Models\Mahasiswa;
 use App\Models\TahunAkademik;
+use App\Models\EdomJadwal;
+use App\Models\EdomPengisian;
+use App\Models\Jadwal;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
@@ -19,6 +22,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Filament\Notifications\Notification;
 
 class KartuHasilStudi extends Page implements HasTable
 {
@@ -41,6 +45,9 @@ class KartuHasilStudi extends Page implements HasTable
     public $ipSemester = 0;
     public $totalSKS = 0;
     public $totalNilai = 0;
+    public $jadwalEdomAktif = null;
+    public $semuaEvaluasiTerisi = true;
+    public $evaluasiYangBelumDiisi = [];
 
     // Filter properties
     public ?array $data = [];
@@ -53,6 +60,9 @@ class KartuHasilStudi extends Page implements HasTable
         if (!$this->mahasiswa) {
             return;
         }
+
+        // Cek status pengisian EDOM
+        $this->cekStatusPengisianEDOM();
 
         // Set default filter ke semester terakhir yang ada nilainya
         $lastKRS = KRS::where('mahasiswa_id', $this->mahasiswa->id)
@@ -68,6 +78,73 @@ class KartuHasilStudi extends Page implements HasTable
         }
 
         $this->calculateIPK();
+    }
+
+    private function cekStatusPengisianEDOM(): void
+    {
+        // Cari jadwal EDOM yang sedang aktif
+        $this->jadwalEdomAktif = EdomJadwal::where('is_aktif', true)
+            ->whereDate('tanggal_mulai', '<=', now())
+            ->whereDate('tanggal_selesai', '>=', now())
+            ->latest()
+            ->first();
+
+        // Jika tidak ada jadwal EDOM aktif, maka tidak perlu cek
+        if (!$this->jadwalEdomAktif || !$this->mahasiswa) {
+            $this->semuaEvaluasiTerisi = true;
+            return;
+        }
+
+        // Ambil daftar jadwal kuliah mahasiswa pada tahun akademik yang aktif
+        $jadwalKuliah = Jadwal::whereHas('krsDetail', function ($query) {
+            $query->whereHas('krs', function ($q) {
+                $q->where('mahasiswa_id', $this->mahasiswa->id)
+                    ->where('status', 'approved');
+            });
+        })
+            ->where('tahun_akademik_id', $this->jadwalEdomAktif->tahun_akademik_id)
+            ->with(['dosen', 'mataKuliah'])
+            ->get();
+
+        // Filter dosen berdasarkan yang dipilih di jadwal EDOM
+        $dosenIds = $this->jadwalEdomAktif->dosen()->pluck('dosen.id')->toArray();
+        $hasSelectedDosen = count($dosenIds) > 0;
+
+        // Ambil daftar pengisian EDOM yang sudah ada
+        $existingPengisian = EdomPengisian::where('jadwal_id', $this->jadwalEdomAktif->id)
+            ->where('mahasiswa_id', $this->mahasiswa->id)
+            ->pluck('jadwal_kuliah_id')
+            ->toArray();
+
+        // Filter jadwal kuliah yang perlu dievaluasi tapi belum diisi
+        $belumDiisi = $jadwalKuliah
+            ->filter(function ($jadwal) use ($dosenIds, $hasSelectedDosen, $existingPengisian) {
+                // Jika sudah diisi, maka tidak perlu dicek
+                if (in_array($jadwal->id, $existingPengisian)) {
+                    return false;
+                }
+
+                // Jika admin memilih dosen tertentu, filter berdasarkan dosen tersebut
+                if ($hasSelectedDosen) {
+                    return in_array($jadwal->dosen_id, $dosenIds);
+                }
+
+                // Jika admin tidak memilih dosen tertentu, tampilkan semua
+                return true;
+            })
+            ->map(function ($jadwal) {
+                return [
+                    'id' => $jadwal->id,
+                    'dosen_nama' => $jadwal->dosen->nama ?? 'Tidak ada dosen',
+                    'mata_kuliah' => $jadwal->mataKuliah->nama ?? 'Tidak ada mata kuliah',
+                    'kelas' => $jadwal->kelas,
+                ];
+            })
+            ->values()
+            ->toArray();
+
+        $this->evaluasiYangBelumDiisi = $belumDiisi;
+        $this->semuaEvaluasiTerisi = count($belumDiisi) === 0;
     }
 
     public function form(Form $form): Form
@@ -141,19 +218,27 @@ class KartuHasilStudi extends Page implements HasTable
                 ->label('Cetak KHS')
                 ->icon('heroicon-o-printer')
                 ->color('success')
-                ->visible(fn() => $this->selectedSemester && $this->mahasiswa)
+                ->visible(fn() => $this->selectedSemester && $this->mahasiswa && $this->semuaEvaluasiTerisi)
                 ->url(fn() => route('khs.cetak', [
                     'semester' => $this->selectedSemester,
                     'tahunAkademikId' => $this->selectedTahunAkademikId
                 ]))
+                ->openUrlInNewTab(),
+
+            Action::make('isi_evaluasi')
+                ->label('Isi Evaluasi Dosen')
+                ->icon('heroicon-o-clipboard-document-check')
+                ->color('warning')
+                ->visible(fn() => !$this->semuaEvaluasiTerisi && $this->jadwalEdomAktif)
+                ->url(fn() => route('filament.mahasiswa.pages.pengisian-edom-page'))
                 ->openUrlInNewTab(),
         ];
     }
 
     public function getTableQuery(): Builder
     {
-        // Default query kosong jika belum ada semester yang dipilih
-        if (!$this->selectedSemester || !$this->mahasiswa) {
+        // Default query kosong jika belum ada semester yang dipilih atau evaluasi belum diisi
+        if (!$this->selectedSemester || !$this->mahasiswa || !$this->semuaEvaluasiTerisi) {
             return KRSDetail::query()->where('id', 0);
         }
 
@@ -199,8 +284,27 @@ class KartuHasilStudi extends Page implements HasTable
                     ->label('Grade')
                     ->formatStateUsing(fn($state) => $state ?: '-'),
             ])
-            ->emptyStateHeading('Belum ada data nilai')
-            ->emptyStateDescription('Belum ada data nilai untuk semester yang dipilih')
+            ->emptyStateHeading(function () {
+                if (!$this->semuaEvaluasiTerisi) {
+                    return 'Evaluasi Dosen Belum Lengkap';
+                }
+                return 'Belum ada data nilai';
+            })
+            ->emptyStateDescription(function () {
+                if (!$this->semuaEvaluasiTerisi) {
+                    return 'Anda harus mengisi semua evaluasi dosen terlebih dahulu sebelum dapat melihat nilai.';
+                }
+                return 'Belum ada data nilai untuk semester yang dipilih';
+            })
+            ->emptyStateIcon('heroicon-o-clipboard-document-check')
+            ->emptyStateActions([
+                \Filament\Tables\Actions\Action::make('isi_evaluasi')
+                    ->label('Isi Evaluasi Dosen')
+                    ->url(fn() => route('filament.mahasiswa.pages.pengisian-edom-page'))
+                    ->icon('heroicon-o-clipboard-document-check')
+                    ->button()
+                    ->visible(fn() => !$this->semuaEvaluasiTerisi),
+            ])
             ->paginated(false);
     }
 

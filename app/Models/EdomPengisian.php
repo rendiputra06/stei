@@ -76,6 +76,14 @@ class EdomPengisian extends Model
     }
 
     /**
+     * Alias untuk relasi detail pengisian (untuk kompatibilitas)
+     */
+    public function pengisianDetail(): HasMany
+    {
+        return $this->detail();
+    }
+
+    /**
      * Cek apakah pengisian sudah disubmit
      */
     public function isSubmitted(): bool
