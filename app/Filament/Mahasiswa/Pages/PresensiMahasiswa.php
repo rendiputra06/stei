@@ -39,6 +39,7 @@ class PresensiMahasiswa extends Page implements HasTable
     // Properties
     public $mahasiswa = null;
     public $selectedJadwalId = null;
+    public $selectedSemester = null;
     public $selectedTahunAkademikId = null;
     public $mataKuliahList = [];
     public $persentaseKehadiran = 0;
@@ -143,8 +144,39 @@ class PresensiMahasiswa extends Page implements HasTable
             ->schema([
                 Section::make('Filter Presensi')
                     ->schema([
-                        Grid::make(2)
+                        Grid::make(1)
                             ->schema([
+                                Select::make('semester')
+                                    ->label('Semester')
+                                    ->options(function () {
+                                        if (!$this->mahasiswa) {
+                                            return [];
+                                        }
+
+                                        // Ambil semester-semester yang memiliki KRS dengan nilai
+                                        return KRS::where('mahasiswa_id', $this->mahasiswa->id)
+                                            ->whereHas('krsDetail.nilai')
+                                            ->orderBy('semester')
+                                            ->pluck('semester', 'semester')
+                                            ->toArray();
+                                    })
+                                    ->reactive()
+                                    ->afterStateUpdated(function ($state) {
+                                        if ($state) {
+                                            $this->selectedSemester = $state;
+
+                                            // Update tahun akademik yang sesuai dengan semester yang dipilih
+                                            $krs = KRS::where('mahasiswa_id', $this->mahasiswa->id)
+                                                ->where('semester', $state)
+                                                ->first();
+
+                                            if ($krs) {
+                                                $this->selectedTahunAkademikId = $krs->tahun_akademik_id;
+                                                $this->data['tahun_akademik_id'] = $krs->tahun_akademik_id;
+                                            }
+                                        }
+                                    }),
+
                                 Select::make('tahun_akademik_id')
                                     ->label('Tahun Akademik')
                                     ->options(function () {
@@ -152,20 +184,16 @@ class PresensiMahasiswa extends Page implements HasTable
                                             return [];
                                         }
 
-                                        return TahunAkademik::orderBy('tahun', 'desc')
-                                            ->orderBy('semester', 'desc')
+                                        return TahunAkademik::whereHas('krs', function ($query) {
+                                            $query->where('mahasiswa_id', $this->mahasiswa->id)
+                                                ->whereHas('krsDetail.nilai');
+                                        })
+                                            ->orderBy('tahun')
+                                            ->orderBy('semester')
                                             ->pluck('nama', 'id')
                                             ->toArray();
                                     })
-                                    ->reactive()
-                                    ->afterStateUpdated(function ($state) {
-                                        if ($state) {
-                                            $this->selectedTahunAkademikId = $state;
-                                            $this->selectedJadwalId = null;
-                                            $this->data['jadwal_id'] = null;
-                                            $this->refreshMataKuliahList();
-                                        }
-                                    }),
+                                    ->disabled(),
 
                                 Select::make('jadwal_id')
                                     ->label('Mata Kuliah')
