@@ -5,6 +5,7 @@ use App\Http\Controllers\CustomFilamentLoginController;
 use App\Http\Controllers\LoginAsController;
 use App\Http\Controllers\KHSCetakController;
 use App\Http\Controllers\TranskripCetakController;
+use App\Http\Controllers\ProgramStudiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +20,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome4');
+});
+
+// Route untuk preview landing page variations
+Route::prefix('preview')->group(function () {
+    Route::get('/landing-1', function () {
+        return view('welcome1');
+    })->name('landing.preview1');
+
+    Route::get('/landing-2', function () {
+        return view('welcome2');
+    })->name('landing.preview2');
+
+    Route::get('/landing-3', function () {
+        return view('welcome3');
+    })->name('landing.preview3');
+
+    Route::get('/landing-4', function () {
+        return view('welcome4');
+    })->name('landing.preview4');
+
+    Route::get('/landing-5', function () {
+        return view('welcome5');
+    })->name('landing.preview5');
 });
 
 Route::get('/status-mahasiswa', StatusMahasiswaPage::class)->name('status-mahasiswa');
@@ -84,3 +108,13 @@ Route::get('/khs/cetak/{semester}/{tahunAkademikId}', [KHSCetakController::class
 Route::get('/transkrip/cetak', [TranskripCetakController::class, 'cetakTranskrip'])
     ->name('transkrip.cetak')
     ->middleware(['auth']);
+
+Route::prefix('program-studi')->group(function () {
+    Route::get('/', [ProgramStudiController::class, 'index'])->name('program-studi.index');
+    Route::get('/visi-misi', [ProgramStudiController::class, 'visiMisi'])->name('program-studi.visi-misi');
+    Route::get('/kurikulum', [ProgramStudiController::class, 'kurikulum'])->name('program-studi.kurikulum');
+    Route::get('/profil-lulusan', [ProgramStudiController::class, 'profilLulusan'])->name('program-studi.profil-lulusan');
+    Route::get('/prospek-karir', [ProgramStudiController::class, 'prospekKarir'])->name('program-studi.prospek-karir');
+    Route::get('/dosen', [ProgramStudiController::class, 'dosen'])->name('program-studi.dosen');
+    Route::get('/fasilitas', [ProgramStudiController::class, 'fasilitas'])->name('program-studi.fasilitas');
+});
