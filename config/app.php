@@ -171,6 +171,7 @@ return [
         App\Providers\Filament\DosenPanelProvider::class,
         App\Providers\Filament\MahasiswaPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\GlobalSettingServiceProvider::class,
     ])->toArray(),
 
     /*

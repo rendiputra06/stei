@@ -39,6 +39,7 @@ class AdminPanelProvider extends PanelProvider
                 \App\Filament\Pages\Dashboard::class,
                 \App\Filament\Pages\LaporanAbsensiDosen::class,
                 \App\Filament\Pages\ScanAbsensiDosen::class,
+                \App\Filament\Pages\SiteConfiguration::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
@@ -66,6 +67,7 @@ class AdminPanelProvider extends PanelProvider
                     ->url(fn() => route('return-to-admin'))
                     ->icon('heroicon-o-arrow-left-circle')
                     ->visible(fn() => session()->has('admin_id') && session()->has('login_as')),
-            ]);
+            ])
+            ->brandName(fn() => \App\Facades\GlobalSetting::get('site_name', 'Sistem Akademik Unirab'));
     }
 }

@@ -2,21 +2,21 @@
 
 ## Prioritas 1: Konten dan Informasi
 
--   [ ] Menambahkan informasi detail program studi:
-    -   [ ] Visi & Misi Program Studi
-    -   [ ] Kurikulum lengkap
-    -   [ ] Profil lulusan
-    -   [ ] Prospek karir
--   [ ] Membuat halaman profil dosen:
-    -   [ ] Biodata lengkap
-    -   [ ] Bidang keahlian
-    -   [ ] Publikasi
-    -   [ ] Pengalaman mengajar
--   [ ] Menambahkan halaman fasilitas kampus:
-    -   [ ] Laboratorium
-    -   [ ] Perpustakaan
-    -   [ ] Ruang ibadah
-    -   [ ] Fasilitas pendukung
+-   [x] Menambahkan informasi detail program studi:
+    -   [x] Visi & Misi Program Studi
+    -   [x] Kurikulum lengkap
+    -   [x] Profil lulusan
+    -   [x] Prospek karir
+-   [x] Membuat halaman profil dosen:
+    -   [x] Biodata lengkap
+    -   [x] Bidang keahlian
+    -   [x] Publikasi
+    -   [x] Pengalaman mengajar
+-   [x] Menambahkan halaman fasilitas kampus:
+    -   [x] Laboratorium
+    -   [x] Perpustakaan
+    -   [x] Ruang ibadah
+    -   [x] Fasilitas pendukung
 
 ## Prioritas 2: Pengembangan Fitur
 
@@ -96,7 +96,7 @@
 
 ## Timeline
 
--   Fase 1 (1-2 bulan): Prioritas 1
+-   Fase 1 (1-2 bulan): Prioritas 1 ✅
 -   Fase 2 (2-3 bulan): Prioritas 2
 -   Fase 3 (1-2 bulan): Prioritas 3
 -   Fase 4 (1-2 bulan): Prioritas 4

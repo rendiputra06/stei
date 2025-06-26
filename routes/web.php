@@ -23,6 +23,26 @@ Route::get('/', function () {
     return view('welcome4');
 });
 
+// Route untuk home yang akan redirect ke panel tertentu
+Route::get('/home', function () {
+    if (!auth()->check()) {
+        return redirect()->route('login');
+    }
+
+    $user = auth()->user();
+
+    if ($user->hasRole('super_admin')) {
+        return redirect()->route('filament.admin.pages.dashboard');
+    } elseif ($user->hasRole('dosen')) {
+        return redirect()->route('filament.dosen.pages.dashboard');
+    } elseif ($user->hasRole('mahasiswa')) {
+        return redirect()->route('filament.mahasiswa.pages.dashboard');
+    }
+
+    // Default redirect jika role tidak dikenali
+    return redirect()->route('login');
+})->middleware(['auth'])->name('home');
+
 // Route untuk preview landing page variations
 Route::prefix('preview')->group(function () {
     Route::get('/landing-1', function () {

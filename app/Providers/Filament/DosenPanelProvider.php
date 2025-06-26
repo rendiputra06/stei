@@ -68,6 +68,7 @@ class DosenPanelProvider extends PanelProvider
                     ->url(fn() => route('return-to-admin'))
                     ->icon('heroicon-o-arrow-left-circle')
                     ->visible(fn() => session()->has('admin_id') && session()->has('login_as')),
-            ]);
+            ])
+            ->brandName(fn() => \App\Facades\GlobalSetting::get('site_name', 'Sistem Akademik Unirab'));
     }
 }

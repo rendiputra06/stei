@@ -27,8 +27,6 @@ class LaporanAbsensiDosen extends Page implements HasTable
 
     protected static ?string $title = 'Laporan Absensi Dosen';
 
-    protected static ?string $navigationGroup = 'Laporan';
-
     protected static ?int $navigationSort = 20;
 
     protected static string $view = 'filament.pages.laporan-absensi-dosen';

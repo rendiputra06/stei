@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             MateriPerkuliahanSeeder::class,
             NilaiSeeder::class,
             EdomSeeder::class,
+            GlobalSettingSeeder::class,
         ]);
     }
 }

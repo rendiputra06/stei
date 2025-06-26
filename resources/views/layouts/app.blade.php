@@ -4,7 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>STEI - Program Studi Ekonomi Islam</title>
+    <title>{{ \App\Facades\GlobalSetting::get('meta_title', 'STEI - Program Studi Ekonomi Islam') }}</title>
+    <meta name="description" content="{{ \App\Facades\GlobalSetting::get('meta_description', 'Program Studi Ekonomi Islam') }}">
+    <meta name="keywords" content="{{ \App\Facades\GlobalSetting::get('meta_keywords', 'ekonomi islam, program studi, stei') }}">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . \App\Facades\GlobalSetting::get('site_favicon', 'default-favicon.ico')) }}">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,10 +24,10 @@
 
     <style>
         :root {
-            --primary: #00695c;
-            --secondary: #4db6ac;
-            --dark: #1e293b;
-            --light: #f8fafc;
+            --primary: {{ \App\Facades\GlobalSetting::get('theme_color_primary', '#00695c') }};
+            --secondary: {{ \App\Facades\GlobalSetting::get('theme_color_secondary', '#4db6ac') }};
+            --dark: {{ \App\Facades\GlobalSetting::get('theme_color_dark', '#1e293b') }};
+            --light: {{ \App\Facades\GlobalSetting::get('theme_color_light', '#f8fafc') }};
         }
 
         body {
@@ -138,7 +143,11 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand fw-bold" href="{{ url('/') }}">
-                <i class="fas fa-mosque text-primary me-2"></i>STEI
+                @if(\App\Facades\GlobalSetting::get('site_logo'))
+                    <img src="{{ asset('storage/' . \App\Facades\GlobalSetting::get('site_logo')) }}" alt="{{ \App\Facades\GlobalSetting::get('site_name', 'STEI') }}" height="40">
+                @else
+                    <i class="fas fa-mosque text-primary me-2"></i>{{ \App\Facades\GlobalSetting::get('site_name', 'STEI') }}
+                @endif
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -196,24 +205,29 @@
             <div class="row g-4">
                 <div class="col-lg-4">
                     <h4 class="fw-bold mb-4">
-                        <i class="fas fa-microchip me-2"></i>STEI
+                        @if(\App\Facades\GlobalSetting::get('site_logo'))
+                            <img src="{{ asset('storage/' . \App\Facades\GlobalSetting::get('site_logo')) }}" alt="{{ \App\Facades\GlobalSetting::get('site_name', 'STEI') }}" height="40">
+                        @else
+                            <i class="fas fa-microchip me-2"></i>{{ \App\Facades\GlobalSetting::get('site_name', 'STEI') }}
+                        @endif
                     </h4>
                     <p class="mb-4 opacity-75">
-                        Institusi pendidikan tinggi yang berfokus pada pengembangan teknologi informasi dan elektronika
+                        {{ \App\Facades\GlobalSetting::get('site_description', 'Institusi pendidikan tinggi yang berfokus pada pengembangan teknologi informasi dan elektronika') }}
                     </p>
                     <div class="d-flex gap-3">
-                        <a href="#" class="text-white opacity-75 hover-opacity-100">
-                            <i class="fab fa-facebook-f fa-lg"></i>
-                        </a>
-                        <a href="#" class="text-white opacity-75 hover-opacity-100">
-                            <i class="fab fa-twitter fa-lg"></i>
-                        </a>
-                        <a href="#" class="text-white opacity-75 hover-opacity-100">
-                            <i class="fab fa-instagram fa-lg"></i>
-                        </a>
-                        <a href="#" class="text-white opacity-75 hover-opacity-100">
-                            <i class="fab fa-linkedin-in fa-lg"></i>
-                        </a>
+                        @php
+                            $socialMedia = \App\Facades\GlobalSetting::get('social_media', [
+                                ['key' => 'facebook', 'value' => '#'],
+                                ['key' => 'twitter', 'value' => '#'],
+                                ['key' => 'instagram', 'value' => '#'],
+                                ['key' => 'linkedin', 'value' => '#']
+                            ]);
+                        @endphp
+                        @foreach($socialMedia as $social)
+                            <a href="{{ $social['value'] }}" class="text-white opacity-75 hover-opacity-100" target="_blank">
+                                <i class="fab fa-{{ $social['key'] }} fa-lg"></i>
+                            </a>
+                        @endforeach
                     </div>
                 </div>
                 <div class="col-lg-2">
@@ -238,15 +252,15 @@
                     <ul class="list-unstyled opacity-75">
                         <li class="mb-3">
                             <i class="fas fa-map-marker-alt me-2"></i>
-                            Jalan Contoh No. 123
+                            {{ \App\Facades\GlobalSetting::get('contact_address', 'Jalan Contoh No. 123') }}
                         </li>
                         <li class="mb-3">
                             <i class="fas fa-phone me-2"></i>
-                            (123) 456-7890
+                            {{ \App\Facades\GlobalSetting::get('contact_phone', '(123) 456-7890') }}
                         </li>
                         <li class="mb-3">
                             <i class="fas fa-envelope me-2"></i>
-                            info@stei.ac.id
+                            {{ \App\Facades\GlobalSetting::get('contact_email', 'info@stei.ac.id') }}
                         </li>
                     </ul>
                 </div>
@@ -261,9 +275,9 @@
                     </div>
                 </div>
             </div>
-            <hr class="my-4 opacity-25">
+            <hr class="my-4">
             <div class="text-center opacity-75">
-                <small>&copy; {{ date('Y') }} STEI. All rights reserved.</small>
+                <small>{{ \App\Facades\GlobalSetting::get('footer_text', '© ' . date('Y') . ' STEI. All rights reserved.') }}</small>
             </div>
         </div>
     </footer>
