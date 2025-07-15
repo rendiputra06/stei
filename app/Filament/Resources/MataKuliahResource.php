@@ -19,6 +19,12 @@ class MataKuliahResource extends Resource
 
     protected static ?string $navigationGroup = 'Data Master';
 
+    protected static ?string $navigationLabel = 'Mata Kuliah';
+
+    protected static ?string $title = 'Mata Kuliah';
+
+    protected static ?string $pluralModelLabel = 'Mata Kuliah';
+
     protected static ?int $navigationSort = 21;
 
     public static function form(Form $form): Form

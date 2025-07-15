@@ -101,22 +101,18 @@ class JadwalDosenResource extends Resource
                 Tables\Columns\TextColumn::make('mataKuliah.nama')
                     ->label('Mata Kuliah')
                     ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('mataKuliah.kode')
-                    ->label('Kode')
-                    ->searchable(),
+                    ->sortable()
+                    ->description(fn($record) => $record->mataKuliah->kode . ' - ' . $record->mataKuliah->sks . ' SKS'),
                 Tables\Columns\TextColumn::make('hari')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('jam_mulai')
-                    ->label('Jam')
-                    ->formatStateUsing(fn($state, $record) => $state->format('H:i') . ' - ' . $record->jam_selesai->format('H:i')),
+                    ->sortable()
+                    ->description(fn($record) => $record->jam_mulai->format('H:i') . ' - ' . $record->jam_selesai->format('H:i')),
                 Tables\Columns\TextColumn::make('ruangan.nama')
                     ->label('Ruangan')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('kelas')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('jumlahMahasiswa')
-                    ->label('Jumlah Mahasiswa')
+                    ->label('Jml. Mahasiswa')
                     ->getStateUsing(fn($record) => $record->jumlahMahasiswa()),
             ])
             ->filters([

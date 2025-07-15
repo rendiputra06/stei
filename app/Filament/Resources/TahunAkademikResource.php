@@ -24,6 +24,12 @@ class TahunAkademikResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'nama';
 
+    protected static ?string $navigationLabel = 'Tahun Akademik';
+
+    protected static ?string $title = 'Tahun Akademik';
+
+    protected static ?string $pluralModelLabel = 'Tahun Akademik';
+
     public static function form(Form $form): Form
     {
         return $form

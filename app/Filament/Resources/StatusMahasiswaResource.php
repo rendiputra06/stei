@@ -27,6 +27,12 @@ class StatusMahasiswaResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'id';
 
+    protected static ?string $navigationLabel = 'Status Mahasiswa';
+
+    protected static ?string $title = 'Status Mahasiswa';
+
+    protected static ?string $pluralModelLabel = 'Status Mahasiswa';
+
     public static function form(Form $form): Form
     {
         return $form

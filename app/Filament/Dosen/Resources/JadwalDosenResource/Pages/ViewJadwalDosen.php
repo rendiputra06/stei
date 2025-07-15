@@ -9,6 +9,7 @@ use Filament\Resources\Pages\ViewRecord;
 class ViewJadwalDosen extends ViewRecord
 {
     protected static string $resource = JadwalDosenResource::class;
+    protected static string $view = 'filament.dosen.resources.jadwal-dosen-resource.pages.view-jadwal-dosen';
 
     protected function getHeaderActions(): array
     {
@@ -51,5 +52,14 @@ class ViewJadwalDosen extends ViewRecord
         }
 
         return $data;
+    }
+
+    public function getViewData(): array
+    {
+        // Pastikan relasi sudah di-load agar tidak N+1
+        $this->record->load(['mataKuliah', 'ruangan', 'tahunAkademik', 'dosen']);
+        return [
+            'record' => $this->record,
+        ];
     }
 }

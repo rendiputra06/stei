@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Filament\Tables;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\Filter;
@@ -136,6 +137,7 @@ class LaporanAbsensiDosen extends Page implements HasTable
                             );
                     }),
             ])
+            ->filtersLayout(FiltersLayout::AboveContent)
             ->actions([
                 // Menghapus action Edit
             ])

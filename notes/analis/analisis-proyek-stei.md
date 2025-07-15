@@ -57,6 +57,80 @@ Proyek ini adalah sistem informasi akademik untuk STEI (Sekolah Tinggi Elektroni
     - Login sebagai pengguna lain (untuk admin)
     - Return to admin (kembali ke akun admin)
 
+## Analisa dan Saran Pengembangan Panel Filament Dosen
+
+### Fitur yang Sudah Ada
+
+Panel dosen pada sistem ini sudah memiliki beberapa fitur utama, antara lain:
+
+-   **Dashboard Dosen**: Menampilkan ringkasan dan akses cepat ke fitur-fitur utama dosen.
+-   **Jadwal Mengajar**: Dosen dapat melihat daftar jadwal mengajar yang aktif, lengkap dengan detail mata kuliah, ruangan, kelas, dan jumlah mahasiswa.
+-   **Presensi Mahasiswa**: Dosen dapat mengelola presensi mahasiswa per pertemuan, termasuk detail kehadiran, keterangan, dan statistik kehadiran.
+-   **Manajemen Materi Perkuliahan**: Fitur untuk mengunggah dan mengelola materi perkuliahan setiap pertemuan.
+-   **Input dan Manajemen Nilai**: Dosen dapat menginput nilai tugas, UTS, UAS, dan nilai akhir mahasiswa per kelas.
+-   **Persetujuan KRS Mahasiswa**: Dosen pembimbing dapat melihat dan menyetujui KRS mahasiswa bimbingan.
+-   **Daftar Mahasiswa Bimbingan**: Dosen dapat melihat data mahasiswa bimbingan, status akademik, dan perkembangan IPK/total SKS.
+-   **Widget Statistik**: Tersedia widget untuk menampilkan statistik jumlah mahasiswa bimbingan, KRS yang menunggu persetujuan, dan distribusi status mahasiswa.
+-   **Absensi QR Code**: Fitur untuk generate QR code absensi perkuliahan.
+
+### Saran Pengembangan Fitur Baru Panel Dosen
+
+Berdasarkan analisa kebutuhan dosen dan tren sistem akademik modern, berikut beberapa saran pengembangan fitur baru yang dapat meningkatkan produktivitas dan pengalaman dosen:
+
+1. **Notifikasi Otomatis**
+
+    - Notifikasi pengingat jadwal mengajar, deadline input nilai, dan pengajuan KRS mahasiswa bimbingan.
+    - Notifikasi via email atau aplikasi mobile (jika ada integrasi).
+
+2. **Rekapitulasi Kehadiran dan Nilai**
+
+    - Fitur untuk mengunduh rekap kehadiran dan nilai mahasiswa dalam format Excel/PDF.
+    - Visualisasi grafik kehadiran dan performa nilai kelas.
+
+3. **Forum Diskusi Kelas**
+
+    - Fasilitas diskusi antara dosen dan mahasiswa per kelas/mata kuliah.
+    - Mendukung pengumuman, tanya jawab, dan pengumpulan tugas ringan.
+
+4. **Penjadwalan Konsultasi/Bimbingan**
+
+    - Fitur booking jadwal konsultasi antara dosen dan mahasiswa bimbingan.
+    - Integrasi dengan kalender (Google Calendar/Outlook) untuk sinkronisasi jadwal.
+
+5. **Manajemen Tugas dan Penilaian Online**
+
+    - Dosen dapat membuat tugas, menerima pengumpulan tugas online, dan melakukan penilaian langsung di sistem.
+    - Mendukung upload file tugas dan feedback langsung ke mahasiswa.
+
+6. **Riwayat Aktivitas Dosen**
+
+    - Log aktivitas dosen seperti input nilai, presensi, upload materi, dan persetujuan KRS.
+    - Dapat digunakan untuk pelaporan beban kerja dosen (BKD).
+
+7. **Integrasi Penilaian Kinerja Dosen (Edom)**
+
+    - Dosen dapat melihat hasil evaluasi kinerja dari mahasiswa secara privat.
+    - Fitur feedback dan tindak lanjut hasil evaluasi.
+
+8. **Fitur Penunjang Akreditasi**
+
+    - Otomatisasi rekap data yang dibutuhkan untuk akreditasi prodi (misal: rekap presensi, nilai, materi, dan aktivitas bimbingan).
+
+9. **Mobile Friendly & Akses Cepat**
+
+    - Optimalisasi tampilan panel dosen untuk perangkat mobile.
+    - Shortcut/quick action untuk fitur yang sering digunakan.
+
+10. **Sistem Penilaian Rubrik**
+    - Mendukung penilaian berbasis rubrik untuk tugas/proyek tertentu.
+    - Dosen dapat membuat rubrik penilaian sendiri sesuai kebutuhan.
+
+### Catatan Tambahan
+
+-   Pastikan setiap fitur baru memperhatikan aspek keamanan data dan privasi, terutama untuk data nilai dan evaluasi.
+-   Lakukan uji coba usability pada dosen sebelum fitur baru dirilis secara penuh.
+-   Dokumentasi penggunaan fitur panel dosen sebaiknya disediakan dalam bentuk video/tutorial singkat.
+
 ## Saran Pengembangan Selanjutnya
 
 ### 1. Pengembangan Panel Dosen

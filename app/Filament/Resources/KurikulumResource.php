@@ -19,6 +19,12 @@ class KurikulumResource extends Resource
 
     protected static ?string $navigationGroup = 'Data Master';
 
+    protected static ?string $navigationLabel = 'Kurikulum';
+
+    protected static ?string $title = 'Kurikulum';
+
+    protected static ?string $pluralModelLabel = 'Kurikulum';
+
     protected static ?int $navigationSort = 20;
 
     public static function form(Form $form): Form

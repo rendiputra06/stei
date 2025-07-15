@@ -6,12 +6,12 @@
     <x-filament::section>
         <div class="flex justify-between items-center mb-4">
             <div>
-                <h2 class="text-2xl font-bold">{{ $record->mataKuliah->nama }}</h2>
-                <p class="text-md text-gray-600">{{ $record->mataKuliah->kode }} - {{ $record->mataKuliah->sks }} SKS</p>
+                <h2 class="text-2xl font-bold">{{ $record->mataKuliah->nama ?? '-' }}</h2>
+                <p class="text-md text-gray-600">{{ $record->mataKuliah->kode ?? '-' }} - {{ $record->mataKuliah->sks ?? '-' }} SKS</p>
             </div>
             <div>
                 <span class="px-3 py-1 text-xs font-medium rounded-full bg-primary-50 text-primary-600">
-                    {{ $record->tahunAkademik->nama }}
+                    {{ $record->tahunAkademik->nama ?? '-' }}
                 </span>
             </div>
         </div>
@@ -23,19 +23,22 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <p class="text-sm font-medium text-gray-500">Hari</p>
-                            <p class="text-base">{{ $record->hari }}</p>
+                            <p class="text-base">{{ $record->hari ?? '-' }}</p>
                         </div>
                         <div>
                             <p class="text-sm font-medium text-gray-500">Waktu</p>
-                            <p class="text-base">{{ $record->jam_mulai->format('H:i') }} - {{ $record->jam_selesai->format('H:i') }}</p>
+                            <p class="text-base">
+                                {{ $record->jam_mulai ? ($record->jam_mulai instanceof \Carbon\Carbon ? $record->jam_mulai->format('H:i') : $record->jam_mulai) : '-' }} - 
+                                {{ $record->jam_selesai ? ($record->jam_selesai instanceof \Carbon\Carbon ? $record->jam_selesai->format('H:i') : $record->jam_selesai) : '-' }}
+                            </p>
                         </div>
                         <div>
                             <p class="text-sm font-medium text-gray-500">Ruangan</p>
-                            <p class="text-base">{{ $record->ruangan->nama }}</p>
+                            <p class="text-base">{{ $record->ruangan->nama ?? '-' }}</p>
                         </div>
                         <div>
                             <p class="text-sm font-medium text-gray-500">Kelas</p>
-                            <p class="text-base">{{ $record->kelas }}</p>
+                            <p class="text-base">{{ $record->kelas ?? '-' }}</p>
                         </div>
                     </div>
                 </div>
@@ -51,8 +54,8 @@
                             </svg>
                         </div>
                         <div>
-                            <p class="font-semibold">{{ $record->dosen->nama }}</p>
-                            <p class="text-sm text-gray-500">{{ $record->dosen->nip }}</p>
+                            <p class="font-semibold">{{ $record->dosen->nama ?? '-' }}</p>
+                            <p class="text-sm text-gray-500">{{ $record->dosen->nip ?? '-' }}</p>
                         </div>
                     </div>
                 </div>
@@ -64,15 +67,15 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-blue-50 rounded-lg p-4 shadow-sm">
                     <p class="text-sm font-medium text-blue-700">Jumlah Mahasiswa</p>
-                    <p class="text-3xl font-bold text-blue-800">{{ $record->jumlahMahasiswa() }}</p>
+                    <p class="text-3xl font-bold text-blue-800">{{ method_exists($record, 'jumlahMahasiswa') ? $record->jumlahMahasiswa() : '-' }}</p>
                 </div>
                 <div class="bg-green-50 rounded-lg p-4 shadow-sm">
                     <p class="text-sm font-medium text-green-700">Pertemuan</p>
-                    <p class="text-3xl font-bold text-green-800">{{ $record->jumlahPertemuan() }} / 14</p>
+                    <p class="text-3xl font-bold text-green-800">{{ method_exists($record, 'jumlahPertemuan') ? $record->jumlahPertemuan() : '-' }} / 14</p>
                 </div>
                 <div class="bg-amber-50 rounded-lg p-4 shadow-sm">
                     <p class="text-sm font-medium text-amber-700">Status</p>
-                    <p class="text-xl font-bold text-amber-800">{{ $record->is_active ? 'Aktif' : 'Tidak Aktif' }}</p>
+                    <p class="text-xl font-bold text-amber-800">{{ isset($record->is_active) ? ($record->is_active ? 'Aktif' : 'Tidak Aktif') : '-' }}</p>
                 </div>
             </div>
         </div>

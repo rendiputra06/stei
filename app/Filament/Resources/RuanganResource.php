@@ -22,6 +22,12 @@ class RuanganResource extends Resource
 
     protected static ?string $navigationGroup = 'Data Master';
 
+    protected static ?string $navigationLabel = 'Ruangan';
+
+    protected static ?string $title = 'Ruangan';
+
+    protected static ?string $pluralModelLabel = 'Ruangan';
+
     protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form

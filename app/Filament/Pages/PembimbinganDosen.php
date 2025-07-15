@@ -102,16 +102,14 @@ class PembimbinganDosen extends Page implements Tables\Contracts\HasTable
         return $table
             ->query($this->getTableQuery())
             ->columns([
-                Tables\Columns\TextColumn::make('nim_nama')
+                Tables\Columns\TextColumn::make('nama')
                     ->label('Mahasiswa')
                     ->searchable(['nim', 'nama'])
-                    ->sortable(['nim'])
+                    ->sortable(['nim', 'nama'])
                     ->formatStateUsing(function ($record) {
                         return $record->nim . ' - ' . $record->nama;
-                    }),
-                Tables\Columns\TextColumn::make('programStudi.nama')
-                    ->label('Program Studi')
-                    ->sortable(),
+                    })
+                    ->description(fn($record) => $record->programStudi->nama),
                 Tables\Columns\IconColumn::make('pembimbingan_count')
                     ->counts('pembimbingan')
                     ->label('Memiliki Pembimbing')

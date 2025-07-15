@@ -1,3 +1,7 @@
+@php
+    use App\Facades\GlobalSetting;
+    $siteName = GlobalSetting::get('site_name', config('app.name'));
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -5,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name') }} - Login</title>
+    <title>{{ $siteName }} - Login</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -147,7 +151,7 @@
                     <div class="app-logo">
                         <i class="bi bi-mortarboard-fill"></i>
                     </div>
-                    <h1 class="h4 fw-bold">{{ config('app.name') }}</h1>
+                    <h1 class="h4 fw-bold">{{ $siteName }}</h1>
                     <p class="text-muted">Silahkan login untuk melanjutkan</p>
                 </div>
                 
@@ -206,7 +210,7 @@
                     </div>
                 @endif
                 
-                <p class="mt-4 mb-0 text-muted copyright text-center">&copy; {{ date('Y') }} {{ config('app.name') }}</p>
+                <p class="mt-4 mb-0 text-muted copyright text-center">&copy; {{ date('Y') }} {{ $siteName }}</p>
             </div>
         </div>
     </main>

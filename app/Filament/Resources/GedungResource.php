@@ -20,6 +20,12 @@ class GedungResource extends Resource
 
     protected static ?string $navigationGroup = 'Data Master';
 
+    protected static ?string $navigationLabel = 'Gedung';
+
+    protected static ?string $title = 'Gedung';
+
+    protected static ?string $pluralModelLabel = 'Gedung';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form

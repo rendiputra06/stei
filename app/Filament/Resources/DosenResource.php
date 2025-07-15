@@ -23,6 +23,12 @@ class DosenResource extends Resource
 
     protected static ?int $navigationSort = 10;
 
+    protected static ?string $navigationLabel = 'Dosen';
+
+    protected static ?string $title = 'Dosen';
+
+    protected static ?string $pluralModelLabel = 'Dosen';
+
     public static function form(Form $form): Form
     {
         return $form

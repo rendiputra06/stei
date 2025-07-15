@@ -20,6 +20,14 @@ class ProgramStudiResource extends Resource
 
     protected static ?string $navigationGroup = 'Data Master';
 
+    protected static ?string $navigationLabel = 'Program Studi';
+
+    protected static ?string $title = 'Program Studi';
+
+    protected static ?string $pluralModelLabel = 'Program Studi';
+
+    protected static ?string $pluralLabel = 'Program Studi';
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
